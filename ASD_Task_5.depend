@@ -7,3 +7,23 @@
 	<windows.h>
 	<iostream>
 
+1519449252 source:c:\users\asus\documents\github\asd_task_5\list.cpp
+	"list.h"
+
+1519196269 c:\users\asus\documents\github\asd_task_5\list.h
+	<string>
+	<windows.h>
+	<iostream>
+
+1519449045 source:c:\users\asus\documents\github\asd_task_5\main.cpp
+	"player.h"
+	"list.h"
+	<conio.h>
+
+1519195820 c:\users\asus\documents\github\asd_task_5\player.h
+	"list.h"
+
+1519449791 source:c:\users\asus\documents\github\asd_task_5\player.cpp
+	"player.h"
+	<ctime>
+

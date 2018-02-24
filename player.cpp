@@ -40,8 +40,15 @@ void shuffleList(List &L) {
     * FS : isi (elemen) dari list teracak
     */
     //-------------your code here-------------
-
-        cout<<"UNDER MAIN TENIS"<<endl;
+    address P = first(L);
+    int x = randomInt(10);
+    for ( int i = 0; i<x; i++)
+    {
+        P = next(P);
+    }
+    address Q = prev(P);
+    deleteAfter(L,Q,P);
+    insertFirst(L,P);
 
     //----------------------------------------
 }
@@ -52,12 +59,32 @@ void sortListByID(List &L) {
     * FS : isi (elemen) dari list L terurut
     */
     //-------------your code here-------------
-
-        cout<<"UNDER MAIN TENIS"<<endl;
-
-    //----------------------------------------
-
+    List L2;
+    createList(L2);
+    address P;
+    while (first(L) != NULL) {
+        deleteFirst(L,P);
+        if(first(L2) == NULL){
+            insertFirst(L2,P);
+        }
+        else if (info(first(L2)).ID >= info(P).ID){
+            insertFirst(L2,P);
+        }
+        else if (info(last(L2)).ID <= info(P).ID){
+            insertLast(L2,P);
+        }
+        else {
+            address Q = first(L);
+            while (info(next(Q)).ID < info(P).ID)
+            {
+                Q = next(Q);
+            }
+            insertAfter(L2,Q,P);
+        }
+    }
+    L = L2;
 }
+
 
 void playRepeat(List &L, int n) {
     /**
@@ -66,7 +93,16 @@ void playRepeat(List &L, int n) {
     */
     //-------------your code here-------------
 
-        cout<<"UNDER MAIN TENIS"<<endl;
+    address P = first(L);
+    for (int i = 0; i <= n; i++)
+    {
+        do
+        {
+            playMusic(P);
+            P = next(P);
+        }
+        while (P != first(L));
+    }
 
     //----------------------------------------
 }
@@ -79,8 +115,21 @@ void deleteMusicByID(List &L, infotype x) {
     * FS : elemen dengan ID yang dicari dideallocate
     */
     //-------------your code here-------------
-
-        cout<<"UNDER MAIN TENIS"<<endl;
+     address Prec, P;
+     P = findElmByID(L,x);
+     if( P == first(L))
+         {
+            deleteFirst(L,P);
+         }
+     else if(P == last(L))
+         {
+            deleteLast(L,P);
+         }
+     else
+        {
+            Prec = prev(P);
+            deleteAfter(L,Prec,P);
+        }
 
     //----------------------------------------
 

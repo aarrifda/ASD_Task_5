@@ -44,7 +44,7 @@ void insertFirst(List &L, address P) {
     * FS : elemen yang ditunjuk P menjadi elemen pertama pada List L
     */
     //-------------your code here-------------
-    if (( first(L)== NULL) && (last(L) == NULL))
+    if (( first(L)== NULL) && (last(L)==NULL))
     {
         first(L) = P;
         last(L) = P;
@@ -54,10 +54,10 @@ void insertFirst(List &L, address P) {
     else
     {
         next(P) = first(L);
-        prev(P) = last(L);
         prev(first(L)) = P;
-        next(last(L)) = P;
         first(L) = P;
+        prev(first(L)) = last(L);
+        next(last(L)) = first(L);
     }
 
     //----------------------------------------
@@ -70,18 +70,19 @@ void insertLast(List &L, address P) {
     */
     //-------------your code here-------------
     if ((first(L) == NULL) && (last(L) == NULL))
+    {
+        first(L) = P;
+        last(L) = P;
+        next(P) = first(L);
+        prev(first(L)) = last(L);
+    }
+    else
+        if (first(L) != NULL)
         {
-            first(L) = P;
-            last(L) = P;
             next(P) = first(L);
             prev(P) = last(L);
-        }
-    else
-        {
-             next(P) = first(L);
-            prev(P) = last(L);
+            next(last(L))= P;
             prev(first(L)) = P;
-            next(last(L)) = P;
             last(L) = P;
         }
     //----------------------------------------
@@ -141,6 +142,7 @@ address findElmByName(List L, infotype x) {
             return NULL;
         }
     }
+
     //----------------------------------------
     return P;
 }
@@ -153,22 +155,22 @@ void deleteFirst(List &L, address &P) {
     //-------------your code here-------------
     if (first(L) != NULL)
     {
-        if (next(first(L)) == first(L))
+        if (next(first(L)) == NULL)
         {
             P = first(L);
+            next(first(L)) = NULL;
+            prev(first(L)) = NULL;
             first(L) = NULL;
             last(L) = NULL;
-            next(P) = NULL;
-            prev(P) = NULL;
         }
         else
         {
             P = first(L);
-            first(L) = next(P);
-            prev(first(L)) = last(L);
-            next(last(L)) = first(L);
+            next(P) = first(L);
             next(P) = NULL;
             prev(P) = NULL;
+            next(last(L)) = first(L);
+            prev(last(L)) = last(L);
         }
     }
 
@@ -190,11 +192,11 @@ void deleteLast(List &L, address &P) {
         else
             {
                 P = last(L);
-                last(L) = prev(P);
-                next(last(L)) = first(L);
-                prev(first(L)) = last(L);
-                next(P) = NULL;
+                prev(P) = last(L);
                 prev(P) = NULL;
+                next(P) = NULL;
+                prev(first(L)) = last(L);
+                next(last(L)) = first(L);
             }
     }
 
@@ -209,10 +211,25 @@ void insertAfter(List &L, address &Prec, address P) {
     *      ditunjuk pointer Prec
     */
     //-------------your code here-------------
-    next(P) = next(Prec);
-    prev(P) = Prec;
-    prev(next(Prec)) = P;
-    next(Prec) = P;
+    if (Prec != NULL)
+    {
+        if (Prec == last(L))
+        {
+            insertLast(L,P);
+        }
+        else
+        {
+            next(P) = next(Prec);
+            prev(P) = Prec;
+            prev(next(Prec)) = P;
+            next(Prec) = P;
+        }
+    }
+    else
+    {
+        cout<<"List Empty"<<endl;
+    }
+
     //----------------------------------------
 
 }
@@ -223,28 +240,11 @@ void deleteAfter(List &L, address &Prec, address &P) {
     *      dan disimpan/ditunjuk oleh P
     */
     //-------------your code here-------------
-    if ((first(L) != NULL) && (Prec != NULL))
-    {
-        if (((first(L) == last(L)) && (Prec == first(L))) || (Prec == last(L)))
-        {
-            deleteFirst(L,P);
-        }
-        else if (next(Prec) == last(L))
-        {
-                {
-                    last(L) = Prec;
-                }
-            P = next(P);
-        }
-        else
-            {
-                P = next(Prec);
-                next(Prec) = next(P);
-                prev(next(P)) = Prec;
-                next(P) = NULL;
-                prev(P) = NULL;
-            }
-    }
+    P = next(Prec);
+    next(Prec) = next(P);
+    prev(next(P)) = Prec;
+    next(P) = NULL;
+    prev(P) = NULL;
 
     //----------------------------------------
 }
